@@ -1,0 +1,6 @@
+{
+  "name": "Mari Bersuci Tahun 4 - EDUP6023",
+  "description": "Laman Pembelajaran Interaktif Pendidikan Islam Tahun 4 bertemakan Mari Bersuci dengan konsep Coquette Pink & Ribbon untuk EDUP6023 Tugasan 3.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,144 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-display: 'Fredoka', cursive, sans-serif;
+    --font-body: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-accent: 'Quicksand', sans-serif;
+    --color-baby-pink: #F8C8DC;
+    --color-soft-pink: #FCE4EC;
+    --color-dusty-rose: #D98BAA;
+    --color-deep-rose: #A84D75;
+    --color-light-pink: #FFF0F5;
+    --color-cream: #FFF8F4;
+  }
+
+  body {
+    font-family: var(--font-body);
+    background-color: #FFF0F5;
+    background-image: url('/assets/aistudio/image_b81e18ae.png');
+    background-repeat: repeat;
+    background-size: 500px auto;
+    background-attachment: fixed;
+    background-position: center top;
+    color: #4A3340;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+  }
+
+  h1, h2, h3, .font-display {
+    font-family: var(--font-display);
+  }
+}
+
+/* Custom gentle animations for ribbons, clouds and sparkles */
+@keyframes gentle-sway {
+  0%, 100% {
+    transform: rotate(-4deg) translateY(0);
+  }
+  50% {
+    transform: rotate(4deg) translateY(-5px);
+  }
+}
+
+@keyframes gentle-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes gentle-pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(248, 200, 220, 0.6);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(217, 139, 170, 0.85);
+  }
+}
+
+@keyframes sparkle-pulse {
+  0%, 100% {
+    transform: scale(0.9) opacity(0.7);
+  }
+  50% {
+    transform: scale(1.2) opacity(1);
+  }
+}
+
+.animate-gentle-sway {
+  animation: gentle-sway 3.5s ease-in-out infinite;
+}
+
+.animate-gentle-float {
+  animation: gentle-float 4s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: gentle-pulse-glow 3s ease-in-out infinite;
+}
+
+.animate-sparkle {
+  animation: sparkle-pulse 2.2s ease-in-out infinite;
+}
+
+/* Coquette Decorative Frames & Borders */
+.coquette-card {
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(8px);
+  border: 2px solid #F8C8DC;
+  border-radius: 1.75rem;
+  box-shadow: 0 8px 24px -4px rgba(217, 139, 170, 0.18), 0 2px 6px rgba(0, 0, 0, 0.04);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.coquette-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 28px -4px rgba(217, 139, 170, 0.28), 0 4px 10px rgba(0, 0, 0, 0.06);
+  border-color: #D98BAA;
+}
+
+/* Scalloped decorative border container */
+.scallop-border {
+  border: 4px dashed #F8C8DC;
+  border-radius: 2rem;
+  background-clip: padding-box;
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Print styling for Certificate A4 Landscape */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #certificate-print-area, #certificate-print-area * {
+    visibility: visible;
+  }
+  #certificate-print-area {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 20px;
+    background: white !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  @page {
+    size: A4 landscape;
+    margin: 10mm;
+  }
+}
