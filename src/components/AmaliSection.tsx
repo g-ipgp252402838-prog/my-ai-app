@@ -4,13 +4,15 @@ import { SectionId, UserProgress } from '../types';
 import { RibbonBow, SparkleIcon, WaterDropIcon, FlowerSticker, HeartSticker } from './RibbonIcons';
 import {
   Video,
-  Play,
   RotateCcw,
   CheckCircle2,
   Sparkles,
   HelpCircle,
   ArrowRight,
   ExternalLink,
+  ChevronDown,
+  ChevronUp,
+  BookOpen,
 } from 'lucide-react';
 
 interface Props {
@@ -20,12 +22,12 @@ interface Props {
 }
 
 export function AmaliSection({ progress, onUpdateProgress, onNavigate }: Props) {
-  const [selectedDemoIndex, setSelectedDemoIndex] = useState(0);
   const [sertuCount, setSertuCount] = useState(0);
   const [sertuFinished, setSertuFinished] = useState(false);
   const [reflectionAnswers, setReflectionAnswers] = useState<Record<string, Record<number, boolean>>>({});
-
-  const currentDemo = AMALI_DEMO_LIST[selectedDemoIndex];
+  const [expandedDetails, setExpandedDetails] = useState<Record<string, boolean>>({
+    mukhaffafah: true, // Default open first card for discovery
+  });
 
   const handleMarkCompleted = (demoId: string) => {
     onUpdateProgress((prev) => ({
@@ -63,6 +65,17 @@ export function AmaliSection({ progress, onUpdateProgress, onNavigate }: Props) 
     }));
   };
 
+  const toggleDetails = (demoId: string) => {
+    setExpandedDetails((prev) => ({
+      ...prev,
+      [demoId]: !prev[demoId],
+    }));
+  };
+
+  const completedCount = AMALI_DEMO_LIST.filter(
+    (demo) => progress.completedAmali[demo.id as keyof typeof progress.completedAmali]
+  ).length;
+
   return (
     <section id="amali" className="py-16 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -74,152 +87,173 @@ export function AmaliSection({ progress, onUpdateProgress, onNavigate }: Props) 
             <RibbonBow className="w-4 h-4 text-pink-500" />
           </div>
           <h2 className="font-display text-3xl sm:text-5xl font-extrabold text-pink-950 mb-3 drop-shadow-2xs">
-            Video Pembelajaran & Demonstrasi Amali
+            🎀 Video Pembelajaran dan Amali
           </h2>
           <p className="text-sm sm:text-base text-pink-950 font-semibold bg-white/70 p-2 rounded-2xl max-w-2xl mx-auto border border-pink-100">
-            Jom lihat dan amalkan cara menyucikan najis dengan betul melalui video pilihan anda, simulasi sertu dan soalan refleksi kendiri.
+            Tonton video panduan amali bagi setiap kategori najis di bawah, fahami tatacara bersuci mengikut syarak, dan lengkapkan semakan tontonan anda.
           </p>
+
+          {/* Quick Progress Indicator */}
+          <div className="inline-flex items-center gap-3 mt-4 px-5 py-2 bg-pink-100/80 rounded-full border-2 border-pink-200 text-xs font-black text-pink-900 shadow-xs">
+            <Video className="w-4 h-4 text-rose-500" />
+            <span>Kemajuan Amali Video:</span>
+            <span className="text-rose-600 tabular-nums">{completedCount} / {AMALI_DEMO_LIST.length} Selesai</span>
+            <div className="w-20 h-2.5 bg-white rounded-full overflow-hidden border border-pink-300">
+              <div
+                className="h-full bg-gradient-to-r from-pink-400 to-rose-500 rounded-full transition-all duration-500"
+                style={{ width: `${(completedCount / AMALI_DEMO_LIST.length) * 100}%` }}
+              />
+            </div>
+          </div>
         </div>
 
-        {/* Demo Selector Tabs with Thumbnail Preview Badges */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3.5 mb-8">
-          {AMALI_DEMO_LIST.map((demo, idx) => {
-            const isSelected = selectedDemoIndex === idx;
-            const isCompleted = progress.completedAmali[demo.id as keyof typeof progress.completedAmali];
+        {/* 4 DISTINCT CARDS ARRANGED IN SEQUENCE 1 TO 4 */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-14">
+          {AMALI_DEMO_LIST.map((demo) => {
+            const isCompleted = !!progress.completedAmali[demo.id as keyof typeof progress.completedAmali];
+            const isExpanded = !!expandedDetails[demo.id];
+
             return (
-              <button
+              <div
                 key={demo.id}
-                onClick={() => setSelectedDemoIndex(idx)}
-                className={`p-4 rounded-3xl text-left border-2 transition-all cursor-pointer flex flex-col justify-between shadow-xs hover:scale-102 ${
-                  isSelected
-                    ? 'bg-gradient-to-br from-pink-100 via-white to-pink-100 border-pink-400 shadow-md ring-3 ring-pink-300'
-                    : 'bg-white/90 border-pink-200 hover:bg-pink-50/90'
-                }`}
+                className="coquette-card p-6 sm:p-7 flex flex-col justify-between border-2 border-pink-200 hover:border-pink-300 hover:shadow-xl transition-all duration-300 relative overflow-hidden"
               >
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-[10px] font-extrabold px-2.5 py-0.5 rounded-full bg-pink-100 text-pink-800 border border-pink-200">
-                    {demo.badge}
-                  </span>
-                  {isCompleted && <CheckCircle2 className="w-5 h-5 text-emerald-500" />}
+                {/* Decorative top ribbon badge */}
+                <div className="flex items-start justify-between gap-3 mb-2">
+                  <div className="flex flex-col">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black bg-pink-100 text-pink-900 border border-pink-300 w-fit mb-1.5 shadow-2xs">
+                      <RibbonBow className="w-3.5 h-3.5 text-pink-600" />
+                      <span>{demo.categoryTitle}</span>
+                    </span>
+                    <h3 className="font-display text-base sm:text-lg font-black text-pink-950 leading-snug">
+                      {demo.activityTitle}
+                    </h3>
+                  </div>
+
+                  {isCompleted ? (
+                    <span className="shrink-0 flex items-center gap-1 text-[11px] font-black text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-300 shadow-2xs">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-600" /> Selesai
+                    </span>
+                  ) : (
+                    <span className="shrink-0 text-[11px] font-extrabold text-pink-700 bg-white/80 px-2.5 py-1 rounded-full border border-pink-200">
+                      Amali {demo.number}
+                    </span>
+                  )}
                 </div>
-                <h4 className="font-display text-xs sm:text-sm font-extrabold text-pink-950 line-clamp-2">
-                  {demo.title}
-                </h4>
-              </button>
+
+                {/* Brief Description */}
+                <p className="text-xs text-pink-900/90 font-medium leading-relaxed mb-3">
+                  {demo.desc}
+                </p>
+
+                {/* YouTube Responsive Video Container */}
+                <div className="relative aspect-16/9 bg-slate-900 rounded-2xl overflow-hidden shadow-lg border-3 border-pink-300 my-2 group">
+                  <iframe
+                    className="w-full h-full"
+                    src={`https://www.youtube-nocookie.com/embed/${demo.youtubeEmbedId}?rel=0&modestbranding=1`}
+                    title={demo.activityTitle}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                </div>
+
+                {/* Video Playback Fallback and Completion Actions */}
+                <div className="flex flex-wrap items-center justify-between gap-2.5 pt-3 pb-2 border-b border-pink-100 text-xs">
+                  <a
+                    href={demo.youtubeUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white hover:bg-pink-50 text-rose-700 font-extrabold rounded-xl border border-pink-300 transition-all hover:scale-102 shadow-2xs"
+                  >
+                    <span>Tonton di YouTube</span>
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+
+                  <button
+                    onClick={() => handleMarkCompleted(demo.id)}
+                    className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl font-extrabold text-xs transition-all cursor-pointer shadow-xs ${
+                      isCompleted
+                        ? 'bg-emerald-100 text-emerald-800 border border-emerald-300'
+                        : 'bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 hover:from-pink-600 hover:to-rose-600 text-white shadow-pink-200 active:scale-95 hover:scale-102'
+                    }`}
+                  >
+                    <CheckCircle2 className="w-3.5 h-3.5" />
+                    <span>{isCompleted ? 'Telah Diselesaikan ✓' : 'Tandakan Selesai Tontonan'}</span>
+                  </button>
+                </div>
+
+                {/* Collapsible Steps and Self-Reflection Details */}
+                <div className="mt-3">
+                  <button
+                    onClick={() => toggleDetails(demo.id)}
+                    className="w-full flex items-center justify-between py-2 text-xs font-black text-pink-900 hover:text-pink-700 transition-colors cursor-pointer"
+                  >
+                    <span className="flex items-center gap-1.5">
+                      <BookOpen className="w-3.5 h-3.5 text-rose-500" />
+                      <span>Ringkasan Langkah Amali & 3 Refleksi Kendiri</span>
+                    </span>
+                    {isExpanded ? (
+                      <ChevronUp className="w-4 h-4 text-pink-600" />
+                    ) : (
+                      <ChevronDown className="w-4 h-4 text-pink-600" />
+                    )}
+                  </button>
+
+                  {isExpanded && (
+                    <div className="pt-2 space-y-3.5 animate-fadeIn">
+                      {/* Langkah-langkah */}
+                      <div className="p-3.5 bg-pink-50/70 rounded-2xl border border-pink-200 space-y-2">
+                        <span className="text-[11px] font-black text-rose-900 uppercase tracking-wider block">
+                          📋 Panduan Langkah Bersuci:
+                        </span>
+                        {demo.langkah.map((stepText, sIdx) => (
+                          <div
+                            key={sIdx}
+                            className="p-2 bg-white rounded-xl border border-pink-100 text-[11px] text-pink-950 font-semibold leading-relaxed"
+                          >
+                            {stepText}
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* 3 Reflection Questions */}
+                      <div className="p-3.5 bg-white rounded-2xl border-2 border-pink-100 space-y-2">
+                        <span className="text-[11px] font-black text-rose-900 flex items-center gap-1 uppercase tracking-wider">
+                          <HelpCircle className="w-3.5 h-3.5 text-rose-500" />
+                          <span>3 Soalan Refleksi Kendiri:</span>
+                        </span>
+                        {demo.refleksi.map((qText, qIdx) => {
+                          const isChecked = !!reflectionAnswers[demo.id]?.[qIdx];
+                          return (
+                            <div
+                              key={qIdx}
+                              onClick={() => toggleReflection(demo.id, qIdx)}
+                              className={`p-2.5 rounded-xl border text-[11px] cursor-pointer transition-all flex items-start gap-2 ${
+                                isChecked
+                                  ? 'bg-emerald-50 border-emerald-300 text-emerald-950 font-bold'
+                                  : 'bg-pink-50/40 border-pink-100 text-pink-950 hover:bg-pink-100/50 font-medium'
+                              }`}
+                            >
+                              <input
+                                type="checkbox"
+                                checked={isChecked}
+                                onChange={() => {}}
+                                className="mt-0.5 rounded text-pink-600 focus:ring-pink-400"
+                              />
+                              <span className="leading-snug">{qText}</span>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
             );
           })}
         </div>
 
-        {/* Main Demo Player & Description Split */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
-          {/* Left Column: Video Embed Player */}
-          <div className="lg:col-span-7 coquette-card p-6 flex flex-col justify-between">
-            <div>
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-xs font-extrabold text-pink-800 flex items-center gap-1.5">
-                  <Video className="w-4 h-4 text-pink-600" /> Paparan Video Pembelajaran
-                </span>
-                <span className="text-[11px] text-pink-700 font-extrabold bg-pink-100 px-3 py-0.5 rounded-full border border-pink-200">
-                  Tahun 4 Fiqh
-                </span>
-              </div>
-
-              {/* YouTube Responsive Video Container with Ribbon Border */}
-              <div className="relative aspect-16/9 bg-slate-900 rounded-2xl overflow-hidden shadow-lg border-3 border-pink-300 mb-4">
-                <iframe
-                  className="w-full h-full"
-                  src={`https://www.youtube-nocookie.com/embed/${currentDemo.youtubeEmbedId}?rel=0&modestbranding=1`}
-                  title={currentDemo.title}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                />
-              </div>
-
-              <div className="flex items-center justify-between text-xs text-pink-900 font-semibold bg-pink-50/70 p-2.5 rounded-xl border border-pink-200">
-                <span>Jika video tidak dimainkan di peranti anda:</span>
-                <a
-                  href={currentDemo.youtubeUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-pink-600 hover:text-pink-800 font-bold inline-flex items-center gap-1 underline"
-                >
-                  Buka di YouTube <ExternalLink className="w-3.5 h-3.5" />
-                </a>
-              </div>
-            </div>
-
-            {/* Mark Finished Button */}
-            <div className="mt-6 pt-4 border-t-2 border-pink-100 flex items-center justify-between">
-              <span className="text-xs text-pink-800 font-bold">
-                Telah tonton dan fahami kaedah ini?
-              </span>
-              <button
-                onClick={() => handleMarkCompleted(currentDemo.id)}
-                className="px-5 py-2.5 text-xs font-extrabold text-white bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 hover:from-pink-600 hover:to-rose-600 rounded-xl shadow-md transition-all flex items-center gap-2 cursor-pointer hover:scale-102"
-              >
-                <CheckCircle2 className="w-4 h-4" /> Tandakan Selesai Tontonan
-              </button>
-            </div>
-          </div>
-
-          {/* Right Column: Step Explanations & 3 Reflection Questions */}
-          <div className="lg:col-span-5 space-y-6">
-            {/* Steps summary card */}
-            <div className="coquette-card p-6">
-              <h4 className="font-display text-sm font-extrabold text-pink-950 mb-2 flex items-center gap-2">
-                <RibbonBow className="w-5 h-5 text-pink-500" />
-                Ringkasan Langkah Amali:
-              </h4>
-              <p className="text-xs text-pink-900/90 mb-3 font-semibold leading-relaxed">
-                {currentDemo.desc}
-              </p>
-              <div className="space-y-2">
-                {currentDemo.langkah.map((l, lIdx) => (
-                  <div key={lIdx} className="p-3 bg-white/90 rounded-2xl border-2 border-pink-100 text-xs text-pink-950 leading-relaxed font-bold shadow-2xs">
-                    {l}
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* 3 Reflection Questions Card */}
-            <div className="coquette-card p-6">
-              <h4 className="font-display text-sm font-extrabold text-pink-950 mb-2 flex items-center gap-2">
-                <HelpCircle className="w-5 h-5 text-rose-500" />
-                3 Soalan Refleksi Kendiri:
-              </h4>
-              <p className="text-xs text-pink-800 font-semibold mb-3">
-                Uji pemikiran kritis anda berdasarkan video yang telah ditonton:
-              </p>
-              <div className="space-y-2.5">
-                {currentDemo.refleksi.map((q, qIdx) => {
-                  const isChecked = reflectionAnswers[currentDemo.id]?.[qIdx];
-                  return (
-                    <div
-                      key={qIdx}
-                      onClick={() => toggleReflection(currentDemo.id, qIdx)}
-                      className={`p-3.5 rounded-2xl border-2 text-xs cursor-pointer transition-all flex items-start gap-2.5 ${
-                        isChecked
-                          ? 'bg-emerald-50 border-emerald-300 text-emerald-950 font-extrabold shadow-2xs'
-                          : 'bg-white/90 border-pink-100 text-pink-950 hover:border-pink-300 font-semibold'
-                      }`}
-                    >
-                      <input
-                        type="checkbox"
-                        checked={!!isChecked}
-                        onChange={() => {}}
-                        className="mt-0.5 rounded-md text-pink-600 focus:ring-pink-400"
-                      />
-                      <span className="leading-relaxed">{q}</span>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* INTERACTIVE AMALI SIMULATOR: SERTU 7 BASUHAN WITH ILLUSTRATION */}
+        {/* INTERACTIVE AMALI SIMULATOR: SERTU 7 BASUHAN */}
         <div className="max-w-4xl mx-auto coquette-card p-6 sm:p-8">
           <div className="text-center max-w-xl mx-auto mb-6">
             <span className="px-3.5 py-1 bg-purple-100 text-purple-800 text-xs font-extrabold rounded-full border border-purple-200">
@@ -234,7 +268,7 @@ export function AmaliSection({ progress, onUpdateProgress, onNavigate }: Props) 
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-            {/* Visual Basin Simulator with Guide Image */}
+            {/* Visual Basin Simulator */}
             <div className="p-6 bg-white rounded-3xl border-3 border-pink-300 text-center flex flex-col items-center justify-center shadow-md">
               <div className="w-40 h-40 rounded-full border-4 border-pink-400 relative overflow-hidden flex items-center justify-center shadow-inner mb-4">
                 {/* Simulated Water Liquid */}

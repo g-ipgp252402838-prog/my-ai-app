@@ -73,7 +73,7 @@ export function HeroSection({
           <div className="flex items-center justify-center gap-2 mb-4">
             <SparkleIcon className="w-4 h-4 text-pink-400 animate-sparkle" />
             <p className="font-display text-base sm:text-xl text-rose-800 font-bold tracking-wide">
-              🎀 Dunia Pembelajaran Interaktif Coquette Pink Ribbon 🎀
+              🎀 Dunia Pembelajaran Interaktif 🎀
             </p>
             <SparkleIcon className="w-4 h-4 text-pink-400 animate-sparkle" />
           </div>
@@ -276,11 +276,11 @@ export function HeroSection({
             <div className="relative shrink-0">
               <div className="w-32 h-32 rounded-full border-4 border-pink-400 p-1.5 bg-gradient-to-tr from-pink-200 via-white to-pink-200 shadow-lg flex items-center justify-center overflow-hidden">
                 <img
-                  src={developerProfile.avatarUrl || "/assets/aistudio/image_a1a98d1c.png"}
+                  src={developerProfile.avatarUrl || "/assets/aistudio/image_104bd941.png"}
                   alt={developerProfile.name}
-                  className="w-full h-full object-cover object-[center_22%] rounded-full hover:scale-105 transition-transform duration-300"
+                  className="w-full h-full object-cover object-[center_20%] rounded-full hover:scale-105 transition-transform duration-300"
                   onError={(e) => {
-                    (e.target as HTMLImageElement).src = '/assets/aistudio/image_a1a98d1c.png';
+                    (e.target as HTMLImageElement).src = '/assets/aistudio/image_104bd941.png';
                   }}
                 />
               </div>
@@ -296,7 +296,7 @@ export function HeroSection({
             <div className="flex-1 text-center sm:text-left space-y-2">
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
                 <h4 className="font-display text-xl font-extrabold text-pink-950">
-                  {developerProfile.name || "[NAMA PENUH]"}
+                  {developerProfile.name || "A'LIAH HASANAH BT JAMALUDDIN - 2026242440271"}
                 </h4>
                 <button
                   onClick={onOpenProfileModal}
@@ -307,7 +307,7 @@ export function HeroSection({
               </div>
 
               <div className="inline-block px-3 py-1 bg-pink-100/80 rounded-xl text-xs font-bold text-rose-800 border border-pink-200">
-                {developerProfile.program || "[PROGRAM / UNIT]"} · {developerProfile.institution || "[INSTITUSI]"}
+                {developerProfile.program || "PISMP ( C10 )"} · {developerProfile.institution || "IPG KAMPUS IPOH"}
               </div>
 
               <p className="text-xs text-pink-950 leading-relaxed font-medium pt-1">

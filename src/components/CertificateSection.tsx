@@ -307,7 +307,7 @@ export function CertificateSection({
                 <div className="text-center">
                   <div className="h-10 border-b-2 border-pink-300 mb-1" />
                   <span className="font-display text-xs font-black text-pink-950 block">
-                    {developerProfile.name || "[NAMA GURU / PEMBANGUN]"}
+                    {developerProfile.name || "A'LIAH HASANAH BT JAMALUDDIN - 2026242440271"}
                   </span>
                   <span className="text-[10px] text-pink-700 font-semibold">
                     Guru Pembimbing / Pembangun Modul
@@ -317,7 +317,7 @@ export function CertificateSection({
                 <div className="text-center">
                   <div className="h-10 border-b-2 border-pink-300 mb-1" />
                   <span className="font-display text-xs font-black text-pink-950 block">
-                    {developerProfile.institution || "[JAWATAN / INSTITUSI]"}
+                    {developerProfile.institution || "IPG KAMPUS IPOH"}
                   </span>
                   <span className="text-[10px] text-pink-700 font-semibold">
                     Institusi Pendidikan

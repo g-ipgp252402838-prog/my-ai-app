@@ -48,23 +48,23 @@ export function DeveloperProfileModal({ isOpen, onClose, profile, onSave }: Prop
           <div className="flex items-center gap-4 p-3 bg-pink-50/60 rounded-2xl border border-pink-100">
             <div className="w-16 h-16 rounded-full border-2 border-pink-400 overflow-hidden shrink-0 shadow-xs">
               <img
-                src={formData.avatarUrl || "/assets/aistudio/image_a1a98d1c.png"}
+                src={formData.avatarUrl || "/assets/aistudio/image_104bd941.png"}
                 alt="Avatar Pembangun"
-                className="w-full h-full object-cover object-[center_22%]"
+                className="w-full h-full object-cover object-[center_20%]"
                 onError={(e) => {
-                  (e.target as HTMLImageElement).src = '/assets/aistudio/image_a1a98d1c.png';
+                  (e.target as HTMLImageElement).src = '/assets/aistudio/image_104bd941.png';
                 }}
               />
             </div>
             <div className="space-y-1">
               <span className="text-xs font-bold text-pink-900 block">Gambar Profil Semasa</span>
-              <p className="text-[11px] text-pink-700/80">Gambar foto anda telah ditetapkan secara automatik.</p>
+              <p className="text-[11px] text-pink-700/80">Foto rasmi pembangun (A'liah Hasanah).</p>
               <button
                 type="button"
-                onClick={() => setFormData({ ...formData, avatarUrl: '/assets/aistudio/image_a1a98d1c.png' })}
+                onClick={() => setFormData({ ...formData, avatarUrl: '/assets/aistudio/image_104bd941.png' })}
                 className="text-[11px] font-bold text-pink-600 hover:text-pink-800 underline cursor-pointer"
               >
-                Gunakan Gambar Helang Saya
+                Gunakan Foto Rasmi Saya
               </button>
             </div>
           </div>
@@ -77,7 +77,7 @@ export function DeveloperProfileModal({ isOpen, onClose, profile, onSave }: Prop
               type="text"
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              placeholder="Contoh: Nurul Aina Binti Ahmad"
+              placeholder="A'LIAH HASANAH BT JAMALUDDIN - 2026242440271"
               className="w-full px-3.5 py-2 text-sm bg-pink-50/40 border border-pink-200 rounded-xl focus:outline-hidden focus:ring-2 focus:ring-pink-400 focus:border-transparent transition-all"
               required
             />
@@ -92,7 +92,7 @@ export function DeveloperProfileModal({ isOpen, onClose, profile, onSave }: Prop
                 type="text"
                 value={formData.program}
                 onChange={(e) => setFormData({ ...formData, program: e.target.value })}
-                placeholder="Contoh: PDPP Pendidikan Islam Rendah"
+                placeholder="PISMP ( C10 )"
                 className="w-full px-3.5 py-2 text-sm bg-pink-50/40 border border-pink-200 rounded-xl focus:outline-hidden focus:ring-2 focus:ring-pink-400 focus:border-transparent transition-all"
                 required
               />
@@ -106,7 +106,7 @@ export function DeveloperProfileModal({ isOpen, onClose, profile, onSave }: Prop
                 type="text"
                 value={formData.institution}
                 onChange={(e) => setFormData({ ...formData, institution: e.target.value })}
-                placeholder="Contoh: IPG Kampus Pendidikan Islam"
+                placeholder="IPG KAMPUS IPOH"
                 className="w-full px-3.5 py-2 text-sm bg-pink-50/40 border border-pink-200 rounded-xl focus:outline-hidden focus:ring-2 focus:ring-pink-400 focus:border-transparent transition-all"
                 required
               />

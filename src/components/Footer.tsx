@@ -21,7 +21,7 @@ export function Footer({ onNavigate }: Props) {
                 </h4>
               </div>
               <p className="text-xs text-pink-800 font-bold">
-                Laman Pembelajaran Interaktif Coquette Pink & White · EDUP6023 Tugasan 3
+                Laman Pembelajaran Interaktif · EDUP6023 Tugasan 3: Penghasilan Produk
               </p>
             </div>
           </div>

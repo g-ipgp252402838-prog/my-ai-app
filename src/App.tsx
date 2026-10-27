@@ -44,12 +44,12 @@ const DEFAULT_PROGRESS: UserProgress = {
 };
 
 const DEFAULT_DEV_PROFILE: DeveloperProfile = {
-  name: '[NAMA PENUH]',
-  program: '[PROGRAM / UNIT]',
-  institution: '[INSTITUSI]',
-  avatarUrl: '/assets/aistudio/image_a1a98d1c.png',
-  description: '[PENERANGAN DIRI] — Pembangun produk pembelajaran digital interaktif Mari Bersuci Tahun 4 bagi EDUP6023 Tugasan 3.',
-  motto: '[MOTTO PENDIDIKAN] — Bersih Diri, Suci Rohani, Ibadah Diberkati.',
+  name: "A'LIAH HASANAH BT JAMALUDDIN - 2026242440271",
+  program: 'PISMP ( C10 )',
+  institution: 'IPG KAMPUS IPOH',
+  avatarUrl: '/assets/aistudio/image_104bd941.png',
+  description: 'Pembangun produk pembelajaran digital interaktif Mari Bersuci Tahun 4 bagi EDUP6023 Tugasan 3: Penghasilan Produk.',
+  motto: 'Bersih Diri, Suci Rohani, Ibadah Diberkati.',
 };
 
 export default function App() {
@@ -67,14 +67,20 @@ export default function App() {
     return DEFAULT_PROGRESS;
   });
 
-  // Initialize developer profile from localStorage, ensuring user photo is active
+  // Initialize developer profile from localStorage, ensuring user photo and info are updated
   const [developerProfile, setDeveloperProfile] = useState<DeveloperProfile>(() => {
     try {
       const saved = localStorage.getItem('mari_bersuci_dev_profile');
       if (saved) {
         const parsed = JSON.parse(saved);
-        if (!parsed.avatarUrl || parsed.avatarUrl.includes('ribbon_badge_award')) {
-          parsed.avatarUrl = '/assets/aistudio/image_a1a98d1c.png';
+        if (
+          !parsed.name ||
+          parsed.name.includes('[NAMA') ||
+          !parsed.avatarUrl ||
+          parsed.avatarUrl.includes('image_a1a98d1c') ||
+          parsed.avatarUrl.includes('ribbon_badge_award')
+        ) {
+          return DEFAULT_DEV_PROFILE;
         }
         return parsed;
       }
